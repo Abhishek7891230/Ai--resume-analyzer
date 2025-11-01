@@ -1,3 +1,11 @@
+import { Navbar } from "./components/Navbar";
+import { GetStarted } from "./components/getstarted";
+
 export default function App() {
-  return <div>Hello</div>;
+  return (
+    <>
+      <Navbar />
+      <GetStarted />
+    </>
+  );
 }

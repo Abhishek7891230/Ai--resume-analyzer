@@ -1,0 +1,18 @@
+src/
+├── components/
+│   ├── Navbar.jsx
+│   ├── UploadSection.jsx
+│   ├── ResultSection.jsx
+│   └── Footer.jsx
+│
+├── pages/
+│   └── Home.jsx         // your main page (contains all components)
+│
+├── utils/
+│   └── ai.js            // later for API calls or mock AI logic
+│
+├── styles/
+│   └── main.css         // main CSS file (import this in App.jsx)
+│
+├── App.jsx
+└── main.jsx
