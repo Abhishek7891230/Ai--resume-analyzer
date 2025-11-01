@@ -5,8 +5,8 @@ import { HomePage } from "./pages/HomePage";
 export default function App() {
   return (
     <Router>
-      <HomePage />
       <Routes>
+        <Route path="/" element={<HomePage />} />
         <Route path="/results" element={<ResultSection />} />
       </Routes>
     </Router>
