@@ -1,34 +1,71 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import "../styles/getStarted.css";
+import * as pdfjsLib from "pdfjs-dist";
+import "pdfjs-dist/build/pdf.worker.min.mjs";
+
+pdfjsLib.GlobalWorkerOptions.workerSrc = URL.createObjectURL(
+  new Blob(
+    [
+      `importScripts('${new URL(
+        "pdfjs-dist/build/pdf.worker.min.mjs",
+        import.meta.url
+      ).toString()}');`,
+    ],
+    { type: "application/javascript" }
+  )
+);
 
 export function GetStarted() {
   const [ready, setReady] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [uploaded, setUploaded] = useState(false);
   const [progress, setProgress] = useState(0);
+  const [text, setText] = useState("");
 
-  function handleUploadBtn() {
+  async function handleFileUpload(e) {
+    const file = e.target.files[0];
+    if (!file || file.type !== "application/pdf") {
+      alert("Please upload a valid PDF file!");
+      return;
+    }
+
     setUploading(true);
     setProgress(0);
+
+    const reader = new FileReader();
+    reader.onload = async function () {
+      const typedarray = new Uint8Array(this.result);
+      const pdf = await pdfjsLib.getDocument(typedarray).promise;
+      let pdfText = "";
+
+      for (let i = 1; i <= pdf.numPages; i++) {
+        const page = await pdf.getPage(i);
+        const content = await page.getTextContent();
+        const pageText = content.items.map((item) => item.str).join(" ");
+        pdfText += pageText + " ";
+      }
+
+      setText(pdfText);
+      localStorage.setItem("resumeText", pdfText);
+      simulateProgress();
+    };
+    reader.readAsArrayBuffer(file);
   }
 
-  useEffect(() => {
-    let timer;
-    if (uploading && progress <= 100) {
-      timer = setInterval(() => {
-        setProgress((prev) => {
-          const newProgress = prev + 5;
-          if (newProgress >= 100) {
-            clearInterval(timer);
-            setUploaded(true);
-            setUploading(false);
-          }
-          return newProgress;
-        });
-      }, 200);
-    }
-    return () => clearInterval(timer);
-  }, [uploading, progress]);
+  function simulateProgress() {
+    let val = 0;
+    const timer = setInterval(() => {
+      val += 5;
+      setProgress(val);
+      if (val >= 100) {
+        clearInterval(timer);
+        setUploading(false);
+        setUploaded(true);
+        console.log("Extracted text:", text.slice(0, 200) + "...");
+        localStorage.setItem("resumeText", text);
+      }
+    }, 150);
+  }
 
   return (
     <div className="main-page">
@@ -51,9 +88,15 @@ export function GetStarted() {
           </span>
 
           {!uploading && !uploaded && (
-            <button className="upload-btn" onClick={handleUploadBtn}>
-              Uplaod resume
-            </button>
+            <label className="upload-btn">
+              Upload Resume
+              <input
+                type="file"
+                accept=".pdf"
+                onChange={handleFileUpload}
+                style={{ display: "none" }}
+              />
+            </label>
           )}
 
           {uploading && (
@@ -68,7 +111,7 @@ export function GetStarted() {
 
           {uploaded && (
             <div className="upload-success">
-              <p>✅ File uploaded successfully!</p>
+              <p> File uploaded successfully!</p>
               <button
                 className="see-results-btn"
                 onClick={() => {
