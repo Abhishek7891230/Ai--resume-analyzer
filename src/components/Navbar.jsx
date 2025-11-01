@@ -7,7 +7,7 @@ export function Navbar() {
   return (
     <div className="navbar">
       <div className="navbar-right-section">
-        <a href="#">
+        <a href="/">
           <img
             className="main-logo"
             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkHqPYTUM0LQDtZizUBROZLxlJtNVq0RUatg&s"
