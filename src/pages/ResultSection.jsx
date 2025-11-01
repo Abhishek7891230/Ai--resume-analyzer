@@ -1,108 +1,71 @@
 import { useEffect, useState } from "react";
+import ReactMarkdown from "react-markdown";
 import "../styles/ResultSection.css";
 
 export function ResultSection() {
-  const [resumeText, setResumeText] = useState("");
-  const [analysis, setAnalysis] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [analysis, setAnalysis] = useState("");
 
   useEffect(() => {
-    const text = localStorage.getItem("resumeText");
-    setResumeText(text || "No resume text found. Please upload again.");
-    if (text) analyzeResume(text);
+    const text = localStorage.getItem("resumeText") || "";
+
+    async function fetchAnalysis() {
+      if (!text) {
+        setAnalysis("No resume text found. Upload a resume first!");
+        setLoading(false);
+        return;
+      }
+
+      try {
+        const response = await fetch(
+          "https://router.huggingface.co/v1/chat/completions",
+          {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${import.meta.env.VITE_HF_API_KEY}`,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              model: "meta-llama/Llama-3.1-8B-Instruct:novita",
+              messages: [
+                {
+                  role: "system",
+                  content:
+                    "You are a resume reviewer. Respond in **clear markdown format** with sections titled 'Overall Score', 'Strengths', and 'Areas to Improve'. Use bullet points and avoid extra markdown lines like === or --- . and if the resume text is not a resume and just some other files or reports, just respond with 'This doesnt looks like a resume.' ",
+                },
+                {
+                  role: "user",
+                  content: text,
+                },
+              ],
+              temperature: 0.5,
+              max_tokens: 700,
+            }),
+          }
+        );
+
+        const data = await response.json();
+        const content =
+          data?.choices?.[0]?.message?.content || "No response from the model.";
+        setAnalysis(content);
+      } catch (err) {
+        setAnalysis("Error fetching analysis.");
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchAnalysis();
   }, []);
 
-  function analyzeResume(text) {
-    let score = 60;
-    const strengths = [];
-    const improvements = [];
-
-    if (text.toLowerCase().includes("project")) {
-      strengths.push("Includes projects section — recruiters love that.");
-      score += 5;
-    } else {
-      improvements.push("Add a Projects section to highlight practical work.");
-    }
-
-    if (
-      text.toLowerCase().includes("react") ||
-      text.toLowerCase().includes("node")
-    ) {
-      strengths.push("Good technical stack — React/Node.js mentioned.");
-      score += 10;
-    } else {
-      improvements.push("Mention your tech stack clearly (React, Node, etc.).");
-    }
-
-    if (text.match(/\d+%|\d+\s*(years|yrs)/i)) {
-      strengths.push("Uses measurable metrics — adds credibility.");
-      score += 10;
-    } else {
-      improvements.push(
-        "Add quantifiable achievements for example, 'Improved speed by 30%')."
-      );
-    }
-
-    if (text.split(/\s+/).length < 150) {
-      improvements.push(
-        "Your resume is too short, consider adding more detail."
-      );
-      score -= 5;
-    }
-
-    const summary =
-      score > 80
-        ? "Your resume looks solid! Just add a few points and you're good to go."
-        : score > 60
-        ? "Good base — with some improvements, it’ll stand out more."
-        : "Needs improvement — try adding more structure and achievements.";
-
-    setAnalysis({
-      score,
-      summary,
-      strengths,
-      improvements,
-    });
-  }
-
-  if (!analysis) {
-    return (
-      <div className="result-page">
-        <p>Analyzing your resume... please wait a sec </p>
-      </div>
-    );
-  }
+  if (loading) return <p className="loading">Analyzing your resume...</p>;
 
   return (
-    <div className="result-page">
-      <div className="result-section-grid">
-        <h2>Resume Analysis</h2>
-        <p className="summary">{analysis.summary}</p>
-        <p className="score">Resume score: {analysis.score}%</p>
-      </div>
-
-      <div className="suggestion-grid">
-        <h3>Strengths</h3>
-        <ul>
-          {analysis.strengths.length > 0 ? (
-            analysis.strengths.map((s, i) => <li key={i}>{s}</li>)
-          ) : (
-            <li>None detected (ouch)</li>
-          )}
-        </ul>
-
-        <h3>Areas to Improve</h3>
-        <ul>
-          {analysis.improvements.length > 0 ? (
-            analysis.improvements.map((imp, i) => <li key={i}>{imp}</li>)
-          ) : (
-            <li>Looking perfect — keep it up!</li>
-          )}
-        </ul>
-      </div>
-
-      <div className="resume-grid">
-        <h3>Your Resume Content:</h3>
-        <pre>{resumeText}</pre>
+    <div className="result-container">
+      <h2 className="title">AI Resume Analysis</h2>
+      <div className="result-card markdown-output">
+        <ReactMarkdown>{analysis}</ReactMarkdown>
       </div>
     </div>
   );

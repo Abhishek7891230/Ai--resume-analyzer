@@ -20,7 +20,6 @@ export function GetStarted() {
   const [uploading, setUploading] = useState(false);
   const [uploaded, setUploaded] = useState(false);
   const [progress, setProgress] = useState(0);
-  const [text, setText] = useState("");
 
   async function handleFileUpload(e) {
     const file = e.target.files[0];
@@ -45,8 +44,9 @@ export function GetStarted() {
         pdfText += pageText + " ";
       }
 
-      setText(pdfText);
       localStorage.setItem("resumeText", pdfText);
+      console.log("Extracted text preview:", pdfText.slice(0, 200) + "...");
+
       simulateProgress();
     };
     reader.readAsArrayBuffer(file);
@@ -61,8 +61,6 @@ export function GetStarted() {
         clearInterval(timer);
         setUploading(false);
         setUploaded(true);
-        console.log("Extracted text:", text.slice(0, 200) + "...");
-        localStorage.setItem("resumeText", text);
       }
     }, 150);
   }
@@ -70,8 +68,8 @@ export function GetStarted() {
   return (
     <div className="main-page">
       <p className="main-text">
-        Analyze Your Resume with AI-Powered Insights Optimize your resume, get
-        ATS-ready, and land your dream job faster.
+        Enhance your resume with AI-driven insights that highlight your
+        strengths and key areas for improvement.
       </p>
 
       <button
@@ -111,14 +109,12 @@ export function GetStarted() {
 
           {uploaded && (
             <div className="upload-success">
-              <p> File uploaded successfully!</p>
+              <p>File uploaded successfully!</p>
               <button
                 className="see-results-btn"
                 onClick={() => {
                   window.open("/results", "_blank");
-                  setUploading(false);
                   setUploaded(false);
-                  setProgress(0);
                 }}
               >
                 See Results
