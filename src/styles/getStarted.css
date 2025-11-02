@@ -1,42 +1,52 @@
 .main-page {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 85vh;
+  min-height: 100vh;
+  padding: 60px 20px;
+  background: linear-gradient(to bottom, #f9fafb 0%, #edf0f4 100%);
   text-align: center;
-  background-color: #fafafa;
-  padding: 20px;
   overflow: hidden;
+  z-index: 0;
 }
 
 .main-text {
-  font-size: 1.4rem;
-  max-width: 600px;
+  font-size: 1.9rem;
   line-height: 1.6;
-  color: #333;
-  margin-bottom: 2rem;
+  max-width: 800px;
+  color: #1f2937;
+  font-weight: 500;
+  margin-bottom: 3rem;
+  opacity: 0.95;
+  z-index: 1;
 }
 
 .ready-btn {
-  background-color: #111;
+  background: #111;
   color: #fff;
   border: none;
-  border-radius: 25px;
-  padding: 12px 26px;
-  font-size: 1rem;
-  cursor: pointer;
+  border-radius: 35px;
+  padding: 14px 38px;
+  font-size: 1.1rem;
   font-weight: 600;
-  transition: opacity 0.4s ease, transform 0.4s ease;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+  z-index: 1;
 }
 
 .ready-btn:hover {
-  background-color: #333;
+  background: #2b2b2b;
+  transform: translateY(-3px);
 }
 
 .fade-out {
   opacity: 0;
-  transform: translateY(-10px);
+  transform: translateY(-25px);
+  pointer-events: none;
+  transition: all 0.2s ease-in-out;
 }
 
 .uploadSection {
@@ -44,81 +54,105 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 1rem;
-  padding: 30px;
-  border-radius: 10px;
+  gap: 1.4rem;
+  padding: 50px;
+  margin-top: 60px;
+  border-radius: 20px;
   background: #fff;
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
   width: 90%;
-  max-width: 500px;
+  max-width: 600px;
   text-align: center;
-  opacity: 0;
-  transform: translateY(100px);
+  animation: fadeIn 0.6s ease forwards;
+  z-index: 1;
 }
 
-.slide-up {
-  animation: slideUp 0.6s ease forwards;
+.upload-btn {
+  background: #111;
+  color: #fff;
+  padding: 14px 38px;
+  border-radius: 35px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+  display: inline-block;
 }
 
-@keyframes slideUp {
-  0% {
+.upload-btn:hover {
+  background: #2b2b2b;
+  transform: translateY(-3px);
+}
+
+@keyframes fadeIn {
+  from {
     opacity: 0;
-    transform: translateY(100px);
+    transform: translateY(40px);
   }
-  100% {
+  to {
     opacity: 1;
     transform: translateY(0);
   }
 }
 
-.upload-btn {
-  background-color: #222;
-  color: #fff;
-  border: none;
-  border-radius: 25px;
-  padding: 10px 24px;
-  cursor: pointer;
-  font-weight: 600;
-  transition: background-color 0.3s ease;
-}
-
-.upload-btn:hover {
-  background-color: #444;
-}
-
 .progress-bar-container {
   width: 80%;
-  height: 15px;
+  height: 12px;
   background-color: #e4e4e4;
   border-radius: 10px;
   overflow: hidden;
-  margin-top: 15px;
-  position: relative;
+  margin-top: 10px;
 }
 
 .progress-bar {
   height: 100%;
-  background: linear-gradient(90deg, #00bfff, #1e90ff);
+  background: linear-gradient(90deg, #2563eb, #3b82f6);
   width: 0%;
-  transition: width 0.2s ease-in-out;
+  transition: width 0.3s ease-in-out;
 }
 
-.upload-success {
-  margin-top: 20px;
-  text-align: center;
+.upload-success p {
+  color: #16a34a;
+  font-weight: 600;
 }
 
 .see-results-btn {
   margin-top: 10px;
-  padding: 8px 18px;
+  padding: 10px 22px;
   border: none;
-  border-radius: 8px;
-  background-color: #007bff;
+  border-radius: 10px;
+  background-color: #2563eb;
   color: white;
   cursor: pointer;
-  transition: 0.2s;
+  font-weight: 600;
+  transition: 0.3s;
 }
 
 .see-results-btn:hover {
-  background-color: #0056b3;
+  background-color: #1d4ed8;
+  transform: translateY(-3px);
+}
+
+nav,
+.navbar,
+.navbar * {
+  z-index: 999 !important;
+  position: relative;
+}
+
+@media (max-width: 768px) {
+  .main-text {
+    font-size: 1.3rem;
+    max-width: 90%;
+  }
+
+  .uploadSection {
+    padding: 30px;
+  }
+
+  .ready-btn {
+    font-size: 1rem;
+    padding: 12px 28px;
+  }
 }

@@ -24,9 +24,22 @@ export function Navbar() {
 
         {open && (
           <div className="menu">
-            <a href="#">Contact Us</a>
-            <a href="#">Other Services</a>
-            <a href="#">About</a>
+            <a href="#">Contact Me</a>
+            <a
+              href="https://github.com/Abhishek7891230"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              GitHub
+            </a>
+            <a
+              href="https://linkedin.com/in/abhishek-poojary777"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              LinkedIn
+            </a>
+            <a href="mailto:abhishekpoojar69@gmail.com">Email</a>
           </div>
         )}
       </div>

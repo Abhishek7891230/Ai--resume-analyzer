@@ -76,13 +76,13 @@ export function GetStarted() {
         className={`ready-btn ${ready ? "fade-out" : ""}`}
         onClick={() => setReady(true)}
       >
-        Get started
+        Get started →
       </button>
 
       {ready && (
         <div className="uploadSection slide-up">
           <span>
-            Drop your resume here or upload a file. PDF only. Max 2MB file size.
+            Upload your resume file here. PDF only. Max 2MB file size.
           </span>
 
           {!uploading && !uploaded && (

@@ -1,10 +1,14 @@
 import { useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import "../styles/ResultSection.css";
+import { Footer } from "../components/Footer";
+import { useNavigate } from "react-router-dom";
 
 export function ResultSection() {
   const [loading, setLoading] = useState(true);
   const [analysis, setAnalysis] = useState("");
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const text = localStorage.getItem("resumeText") || "";
@@ -62,11 +66,17 @@ export function ResultSection() {
   if (loading) return <p className="loading">Analyzing your resume...</p>;
 
   return (
-    <div className="result-container">
-      <h2 className="title">AI Resume Analysis</h2>
-      <div className="result-card markdown-output">
-        <ReactMarkdown>{analysis}</ReactMarkdown>
+    <>
+      <div className="result-container">
+        <button className="back-home-btn" onClick={() => navigate("/")}>
+          ← Back to Home
+        </button>
+        <h2 className="title">Resume Analysis</h2>
+        <div className="result-card markdown-output">
+          <ReactMarkdown>{analysis}</ReactMarkdown>
+        </div>
       </div>
-    </div>
+      <Footer />
+    </>
   );
 }

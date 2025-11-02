@@ -7,7 +7,13 @@ export function Footer() {
       <div className="footer-links">
         <a href="#">Privacy Policy</a>
         <a href="#">Terms of Service</a>
-        <a href="#">Contact</a>
+        <a
+          href="https://linkedin.com/in/abhishek-poojary777"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Contact
+        </a>
       </div>
     </footer>
   );
