@@ -1,16 +1,33 @@
-# React + Vite
+# Ai Resume Analyzer
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This web app helps users analyze their resumes and improve them according to suggestions provided by the AI.
 
-Currently, two official plugins are available:
+# Tech Stack:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Frontend: React + Vite
 
-## React Compiler
+Backend/API: Hugging Face Inference API
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Styling: CSS
 
-## Expanding the ESLint configuration
+# How It Works
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+1. Upload your resume (PDF format).
+
+2. The app uses an AI model (meta-llama/Llama-3.1-8B-Instruct:novita) to evaluate:
+
+   •Resume clarity and structure
+
+   •Keyword alignment with industry standards
+
+3. Results are shown instantly with actionable feedback.
+
+# To run this project locally follow these steps👇
+
+1. clone the repository with the command
+   --> git clone <https://github.com/Abhishek7891230/Ai--resume-analyzer.git>
+2. change the directory to the repository folder
+   --> cd <repository-folder>
+3. then runthe following two commands
+   --> npm install
+   --> npm run dev
