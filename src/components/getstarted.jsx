@@ -2,6 +2,7 @@ import { useState } from "react";
 import "../styles/getStarted.css";
 import * as pdfjsLib from "pdfjs-dist";
 import "pdfjs-dist/build/pdf.worker.min.mjs";
+import { useNavigate } from "react-router-dom";
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = URL.createObjectURL(
   new Blob(
@@ -20,6 +21,8 @@ export function GetStarted() {
   const [uploading, setUploading] = useState(false);
   const [uploaded, setUploaded] = useState(false);
   const [progress, setProgress] = useState(0);
+
+  const navigate = useNavigate();
 
   async function handleFileUpload(e) {
     const file = e.target.files[0];
@@ -113,7 +116,7 @@ export function GetStarted() {
               <button
                 className="see-results-btn"
                 onClick={() => {
-                  window.open("/results", "_blank");
+                  navigate("/results");
                   setUploaded(false);
                 }}
               >
