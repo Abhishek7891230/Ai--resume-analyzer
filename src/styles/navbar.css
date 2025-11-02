@@ -122,3 +122,18 @@
   display: flex;
   gap: 10px;
 }
+
+.github-link {
+  background-color: #000;
+  color: #fff;
+  text-decoration: none;
+  padding: 10px 18px;
+  border-radius: 20px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  display: inline-block;
+}
+
+.github-link:hover {
+  background-color: #222;
+}

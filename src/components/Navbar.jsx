@@ -17,6 +17,14 @@ export function Navbar() {
         </a>
       </div>
       <div className="navbar-left-section">
+        <a
+          className="github-link"
+          href="https://github.com/Abhishek7891230/Ai--resume-analyzer"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          GitHub Repo
+        </a>
         <button className="login-btn">Sign in/Login</button>
         <div className="menu-icon" onClick={() => setOpen(!open)}>
           &#9776;
