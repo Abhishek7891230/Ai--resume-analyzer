@@ -10,6 +10,10 @@ Backend/API: Hugging Face Inference API
 
 Styling: CSS
 
+## 🔗 Live Demo
+
+https://abhi-airesume.netlify.app/
+
 # How It Works
 
 1. Upload your resume (PDF format).
